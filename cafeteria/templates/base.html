@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESQUINA DEL CAFE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+    <header>
+        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="{% url 'list_product' %}" class="flex items-center">
+                    <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" xml:space="preserve">
+                        <!-- SVG content -->
+                    </svg>
+                    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">ESQUINA DEL CAFE</span>
+                </a>
+                <div class="flex items-center lg:order-2">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post" class="inline-block">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+                            Cerrar sesión
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'login' %}"
+                        class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+                        Login
+                    </a>
+                    {% endif %}
+                    <a 
+                        href="{% url 'my_order' %}" 
+                        class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800"
+                    >
+                        Mis Pedidos
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <div class="container mx-auto px-4 flex justify-center items-center h-full">
+            <div class="w-full max-w-2xl">
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white text-center py-4">
+        <p class="text-gray-500 text-sm">© 2024 Esquina del Café. Todos los derechos reservados.</p>
+    </footer>
+</body>
+
+</html>
