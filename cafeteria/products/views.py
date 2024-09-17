@@ -3,7 +3,6 @@ from django.views import generic
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-
 from products.models import Product
 from .forms import ProductForm
 from .serializers import ProductSerializer
