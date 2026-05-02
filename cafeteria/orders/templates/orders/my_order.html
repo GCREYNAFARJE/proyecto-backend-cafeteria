@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block content %}
 <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
   <h2 class="text-2xl font-bold mb-4">Detalles de la Orden</h2>
+
+  {% if order %}
   <div class="mb-2">
     <span class="text-lg font-semibold">Usuario: </span>
     <span class="text-lg">{{ order.user.username|title }}</span>
@@ -14,12 +16,59 @@
     <h3 class="text-xl font-bold mb-2">Artículos en tu orden:</h3>
     {% for product_order in order.orderproduct_set.all %}
     <div class="flex justify-between items-center py-2 border-b">
-      <div class="text-lg">{{ product_order.product.name }}</div>
-      <div class="text-lg font-semibold">S/.{{ product_order.product.price }}</div>
+      <div class="text-lg">
+        {{ product_order.product.name }} (x{{ product_order.quantity }})
+      </div>
+      <div class="text-lg font-semibold">
+        S/.{{ product_order.get_subtotal }}
+      </div>
     </div>
     {% empty %}
     <div class="text-red-500">No hay artículos en tu orden</div>
     {% endfor %}
   </div>
+
+  <!-- 🟢 Total del pedido -->
+  <div class="mt-6 text-right">
+    <span class="text-xl font-bold">Total: </span>
+    <span class="text-xl font-semibold text-green-600">
+      S/.{{ order.get_total }}
+    </span>
+  </div>
+
+  <!-- 🔴 Botón para eliminar el pedido completo -->
+  <div class="mt-6 text-center">
+    <form action="{% url 'delete_order' order.id %}" method="post">
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+      >
+        Eliminar pedido
+      </button>
+    </form>
+  </div>
+
+  <!-- 🟢 Botón para realizar otro pedido -->
+  <div class="mt-4 text-center">
+    <a
+      href="{% url 'list_product' %}"
+      class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+    >
+      Realizar otro pedido
+    </a>
+  </div>
+
+  {% else %}
+  <p class="text-red-500">No tienes pedidos activos.</p>
+  <div class="mt-4 text-center">
+    <a
+      href="{% url 'add_product' %}"
+      class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+    >
+      Realizar un pedido
+    </a>
+  </div>
+  {% endif %}
 </div>
 {% endblock content %}

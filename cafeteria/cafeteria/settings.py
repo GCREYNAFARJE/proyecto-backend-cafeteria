@@ -88,11 +88,8 @@ WSGI_APPLICATION = "cafeteria.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("ENGINE"),
-        "NAME": os.environ.get("NAME"),
-        "USER": os.environ.get("USER"),
-        "PASSWORD": os.environ.get("PASSWORD"),
-        "HOST": os.environ.get("HOST"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
